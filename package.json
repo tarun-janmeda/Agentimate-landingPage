@@ -2,19 +2,24 @@
   "name": "animejs",
   "version": "3.2.2",
   "homepage": "http://animejs.com",
-  "repository": "juliangarnier/anime",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juliangarnier/anime.git"
+  },
   "description": "JavaScript animation engine",
   "umd:main": "lib/anime.min.js",
   "module": "lib/anime.es.js",
   "main": "lib/anime.js",
   "umd:name": "anime",
   "license": "MIT",
-  "author": "Julian Garnier <hello@julian.gr>",
+  "author": "Julian Garnier",
   "files": [
     "lib"
   ],
   "scripts": {
-    "build": "node build"
+    "build": "node build && node build-vercel.js",
+    "build-vercel": "node build-vercel.js",
+    "deploy": "vercel deploy"
   },
   "bugs": {
     "url": "https://github.com/juliangarnier/anime/issues"
@@ -31,7 +36,7 @@
   "devDependencies": {
     "gzip-size": "^4.1.0",
     "pretty-bytes": "^4.0.2",
-    "rollup": "^0.53.2",
+    "rollup": "^0.53.0",
     "rollup-plugin-buble": "^0.18.0",
     "uglify-js": "^3.3.4"
   }
