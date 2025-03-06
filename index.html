@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agentimate - The Agent Who Animates Design</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        :root {
+            --gradient-start: #FF6B6B;
+            --gradient-end: #4ECDC4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #111;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .animated-heart {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+            fill: url(#gradient);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .input-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            outline: none;
+            flex: 1;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .testimonials {
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #2a2a2a;
+        }
+
+        .quote {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .author {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .author strong {
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .author span {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Showcase Styles */
+        .animation-showcase {
+            padding: 4rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .animation-showcase h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .animation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .animation-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .animation-card h3 {
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .animation-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Morphing Shapes */
+        .morph-svg {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .float-item {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+        }
+
+        /* Text Animation */
+        .animated-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Particle System */
+        .particles {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Loading Animation */
+        .loading-circle {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--gradient-end);
+            border-radius: 50%;
+        }
+
+        /* Interactive Button */
+        .interactive-button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            background: transparent;
+            border: 2px solid var(--gradient-start);
+            color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .animation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Pricing Styles */
+        .pricing {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--gradient-end);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        .currency {
+            font-size: 1.5rem;
+            vertical-align: super;
+        }
+
+        .period {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .features {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4rem 2rem 2rem;
+            color: #fff;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">agentimate</div>
+        <div class="nav-links">
+            <a href="#">Support</a>
+            <a href="#">Blog</a>
+            <a href="#">Learn</a>
+            <a href="#">Sign In</a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="animated-heart">
+            <svg class="heart-svg" viewBox="0 0 32 32">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:var(--gradient-start)" />
+                        <stop offset="100%" style="stop-color:var(--gradient-end)" />
+                    </linearGradient>
+                </defs>
+                <path d="M16 28.72l-1.44-1.44C6.72 20.16 2 15.44 2 9.6 2 4.88 5.68 1.2 10.4 1.2c2.24 0 4.48.96 5.6 2.88 1.12-1.92 3.36-2.88 5.6-2.88 4.72 0 8.4 3.68 8.4 8.4 0 5.84-4.72 10.56-12.56 17.68L16 28.72z"/>
+            </svg>
+        </div>
+        <h1>Idea to design in seconds.</h1>
+        <p class="subtitle">agentimate is your superhuman AI design engineer.</p>
+        <div class="input-container">
+            <input type="text" placeholder="Ask agentimate to create a design about...">
+            <button>Create</button>
+        </div>
+    </main>
+
+    <section class="testimonials">
+        <h2>What Designers Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"agentimate transformed our design workflow. What used to take days now takes seconds."</p>
+                <div class="author">
+                    <strong>Sarah Chen</strong>
+                    <span>UI/UX Lead, TechFlow</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"The AI understands design principles better than many human designers I've worked with."</p>
+                <div class="author">
+                    <strong>Marcus Rodriguez</strong>
+                    <span>Creative Director, DesignLab</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"Finally, an AI that speaks the language of design. This is a game-changer for our agency."</p>
+                <div class="author">
+                    <strong>Emma Thompson</strong>
+                    <span>Design Manager, CreativeWave</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"The speed and quality of designs produced by agentimate is simply mind-blowing."</p>
+                <div class="author">
+                    <strong>Alex Kim</strong>
+                    <span>Product Designer, InnovateCo</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"Our design team's productivity doubled since we started using agentimate."</p>
+                <div class="author">
+                    <strong>Lisa Patel</strong>
+                    <span>Design Lead, FutureScale</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="avatar">
+                    <div class="avatar-placeholder"></div>
+                </div>
+                <p class="quote">"The consistency and creativity of agentimate's designs are unmatched."</p>
+                <div class="author">
+                    <strong>David Wilson</strong>
+                    <span>Senior Designer, PixelPerfect</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="animation-showcase">
+        <h2>Endless Design Possibilities</h2>
+        <div class="animation-grid">
+            <!-- Morphing Shapes -->
+            <div class="animation-card">
+                <h3>Morphing Shapes</h3>
+                <div class="animation-container">
+                    <svg class="morph-svg" viewBox="0 0 100 100">
+                        <path class="morph-path" d="M50 10 L90 50 L50 90 L10 50Z" fill="url(#gradient)" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Floating Elements -->
+            <div class="animation-card">
+                <h3>Floating Elements</h3>
+                <div class="animation-container">
+                    <div class="floating-elements">
+                        <div class="float-item"></div>
+                        <div class="float-item"></div>
+                        <div class="float-item"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Animation -->
+            <div class="animation-card">
+                <h3>Dynamic Text</h3>
+                <div class="animation-container">
+                    <div class="animated-text">Design</div>
+                </div>
+            </div>
+
+            <!-- Particle System -->
+            <div class="animation-card">
+                <h3>Particle Effects</h3>
+                <div class="animation-container">
+                    <div class="particles"></div>
+                </div>
+            </div>
+
+            <!-- Loading Animation -->
+            <div class="animation-card">
+                <h3>Loading States</h3>
+                <div class="animation-container">
+                    <div class="loading-circle"></div>
+                </div>
+            </div>
+
+            <!-- Interactive Elements -->
+            <div class="animation-card">
+                <h3>Interactive UI</h3>
+                <div class="animation-container">
+                    <button class="interactive-button">Hover Me</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <h2>Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Free</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">0</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li>5 AI Design Generations</li>
+                    <li>Basic Animation Templates</li>
+                    <li>Community Support</li>
+                    <li>720p Export Quality</li>
+                </ul>
+                <button class="pricing-btn">Get Started</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <h3>Pro</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">29</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li>Unlimited AI Design Generations</li>
+                    <li>Advanced Animation Library</li>
+                    <li>Priority Support</li>
+                    <li>4K Export Quality</li>
+                    <li>Custom Branding</li>
+                    <li>Team Collaboration</li>
+                </ul>
+                <button class="pricing-btn">Upgrade to Pro</button>
+            </div>
+
+            <!-- Pro Max Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Pro Max</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">99</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li>Everything in Pro, plus:</li>
+                    <li>API Access</li>
+                    <li>White-label Solution</li>
+                    <li>Dedicated Account Manager</li>
+                    <li>Custom Integration Support</li>
+                    <li>Enterprise Security</li>
+                </ul>
+                <button class="pricing-btn">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>agentimate</h4>
+                <p>Transforming ideas into stunning designs with the power of AI. Create, animate, and innovate faster than ever before.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 agentimate. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Twitter">𝕏</a>
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="GitHub">
+                    <svg height="20" width="20" viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation timeline
+        const timeline = anime.timeline({
+            easing: 'easeOutExpo',
+            duration: 1000
+        });
+
+        // Add animations to timeline
+        timeline
+            .add({
+                targets: '.animated-heart',
+                scale: [0, 1],
+                rotate: ['1turn', '0turn'],
+                duration: 1500
+            })
+            .add({
+                targets: 'h1',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800
+            }, '-=800')
+            .add({
+                targets: '.subtitle',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800
+            }, '-=600')
+            .add({
+                targets: '.input-container',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800
+            }, '-=600');
+
+        // Continuous heart animation
+        anime({
+            targets: '.animated-heart',
+            scale: 1.1,
+            duration: 800,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+
+        // Testimonials animations
+        const testimonialsTimeline = anime.timeline({
+            easing: 'easeOutExpo',
+            duration: 1000,
+            delay: anime.stagger(200)
+        });
+
+        testimonialsTimeline
+            .add({
+                targets: '.testimonials h2',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                delay: 400
+            })
+            .add({
+                targets: '.testimonial-card',
+                opacity: [0, 1],
+                translateY: [40, 0],
+                duration: 800,
+                delay: anime.stagger(150)
+            }, '-=400');
+
+        // Add hover animation for cards
+        const cards = document.querySelectorAll('.testimonial-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                anime({
+                    targets: card.querySelector('.avatar'),
+                    scale: 1.1,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                anime({
+                    targets: card.querySelector('.avatar'),
+                    scale: 1,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+        });
+
+        // Morphing Shape Animation
+        anime({
+            targets: '.morph-path',
+            d: [
+                { value: 'M50 10 L90 50 L50 90 L10 50Z' },
+                { value: 'M50 10 A40 40 0 1 1 50 90 A40 40 0 1 1 50 10' },
+                { value: 'M10 50 L50 10 L90 50 L50 90Z' }
+            ],
+            duration: 3000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+
+        // Floating Elements Animation
+        const floatItems = document.querySelectorAll('.float-item');
+        floatItems.forEach((item, index) => {
+            const delay = index * 400;
+            item.style.left = `${20 + index * 30}%`;
+            item.style.top = '50%';
+            
+            anime({
+                targets: item,
+                translateY: [
+                    { value: -50, duration: 1000 },
+                    { value: 50, duration: 1000 }
+                ],
+                translateX: [
+                    { value: -20, duration: 1000 },
+                    { value: 20, duration: 1000 }
+                ],
+                delay: delay,
+                loop: true,
+                direction: 'alternate',
+                easing: 'easeInOutSine'
+            });
+        });
+
+        // Text Animation
+        anime({
+            targets: '.animated-text',
+            translateY: [-20, 0],
+            opacity: [0, 1],
+            duration: 800,
+            delay: 1000,
+            endDelay: 1000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+
+        // Particle System
+        const particleContainer = document.querySelector('.particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = `hsl(${Math.random() * 360}, 100%, 75%)`;
+            particle.style.borderRadius = '50%';
+            particleContainer.appendChild(particle);
+
+            anime({
+                targets: particle,
+                translateX: () => anime.random(-100, 100),
+                translateY: () => anime.random(-100, 100),
+                scale: [0, 1],
+                opacity: [1, 0],
+                duration: () => anime.random(1000, 2000),
+                delay: () => anime.random(0, 1000),
+                loop: true,
+                easing: 'easeOutExpo'
+            });
+        }
+
+        // Loading Animation
+        anime({
+            targets: '.loading-circle',
+            rotate: '1turn',
+            duration: 1000,
+            loop: true,
+            easing: 'linear'
+        });
+
+        // Interactive Button Animation
+        const button = document.querySelector('.interactive-button');
+        button.addEventListener('mouseenter', () => {
+            anime({
+                targets: button,
+                scale: 1.1,
+                duration: 300,
+                easing: 'easeOutQuad'
+            });
+        });
+
+        button.addEventListener('mouseleave', () => {
+            anime({
+                targets: button,
+                scale: 1,
+                duration: 300,
+                easing: 'easeOutQuad'
+            });
+        });
+
+        // Pricing Cards Animation
+        const pricingCards = document.querySelectorAll('.pricing-card');
+        
+        const pricingObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: entry.target,
+                        translateY: [50, 0],
+                        opacity: [0, 1],
+                        delay: index * 200,
+                        duration: 800,
+                        easing: 'easeOutExpo'
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        pricingCards.forEach(card => {
+            pricingObserver.observe(card);
+            
+            // Add hover animation
+            card.addEventListener('mouseenter', () => {
+                anime({
+                    targets: card,
+                    scale: 1.05,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                anime({
+                    targets: card,
+                    scale: 1,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+        });
+
+        // Footer Links Animation
+        const footerLinks = document.querySelectorAll('.footer-section a');
+        footerLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                anime({
+                    targets: link,
+                    translateX: 5,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                anime({
+                    targets: link,
+                    translateX: 0,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
