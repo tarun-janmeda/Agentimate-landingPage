@@ -148,10 +148,11 @@
 
         .testimonial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
 
         .testimonial-card {
@@ -214,6 +215,13 @@
         @media (max-width: 768px) {
             .testimonial-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            .testimonial-card {
+                margin: 0 auto;
+                max-width: 350px;
             }
         }
 
@@ -329,41 +337,57 @@
 
         /* Pricing Styles */
         .pricing {
-            padding: 4rem 2rem;
+            padding: 2rem 0;
             background: rgba(255, 255, 255, 0.02);
+            overflow: hidden;
         }
 
         .pricing h2 {
             text-align: center;
             font-size: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
             background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1.5rem;
+            padding: 1rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+
+        .pricing-grid::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         .pricing-card {
-            flex: 0 0 auto;
-            width: 300px;
+            flex: 0 0 300px;
             scroll-snap-align: start;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
             transition: transform 0.3s ease;
+            position: relative;
         }
 
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
+        @media (max-width: 768px) {
+            .pricing-card {
+                flex: 0 0 85%;
+                max-width: 300px;
+            }
+            
+            .pricing-grid {
+                padding: 1rem;
+                margin: 0 auto;
+            }
         }
 
         .pricing-card h3 {
@@ -651,7 +675,7 @@
         <div class="testimonial-grid">
             <div class="testimonial-card">
                 <div class="avatar">
-                    <div class="avatar-placeholder"></div>
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                 </div>
                 <p class="quote">"agentimate transformed our design workflow. What used to take days now takes seconds."</p>
                 <div class="author">
@@ -661,7 +685,7 @@
             </div>
             <div class="testimonial-card">
                 <div class="avatar">
-                    <div class="avatar-placeholder"></div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Rodriguez" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                 </div>
                 <p class="quote">"The AI understands design principles better than many human designers I've worked with."</p>
                 <div class="author">
@@ -671,42 +695,12 @@
             </div>
             <div class="testimonial-card">
                 <div class="avatar">
-                    <div class="avatar-placeholder"></div>
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Thompson" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                 </div>
                 <p class="quote">"Finally, an AI that speaks the language of design. This is a game-changer for our agency."</p>
                 <div class="author">
                     <strong>Emma Thompson</strong>
                     <span>Design Manager, CreativeWave</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="avatar">
-                    <div class="avatar-placeholder"></div>
-                </div>
-                <p class="quote">"The speed and quality of designs produced by agentimate is simply mind-blowing."</p>
-                <div class="author">
-                    <strong>Alex Kim</strong>
-                    <span>Product Designer, InnovateCo</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="avatar">
-                    <div class="avatar-placeholder"></div>
-                </div>
-                <p class="quote">"Our design team's productivity doubled since we started using agentimate."</p>
-                <div class="author">
-                    <strong>Lisa Patel</strong>
-                    <span>Design Lead, FutureScale</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="avatar">
-                    <div class="avatar-placeholder"></div>
-                </div>
-                <p class="quote">"The consistency and creativity of agentimate's designs are unmatched."</p>
-                <div class="author">
-                    <strong>David Wilson</strong>
-                    <span>Senior Designer, PixelPerfect</span>
                 </div>
             </div>
         </div>
@@ -774,66 +768,39 @@
     <section class="pricing">
         <h2>Choose Your Plan</h2>
         <div class="pricing-grid">
-            <!-- Free Plan -->
             <div class="pricing-card">
-                <div class="pricing-header">
-                    <h3>Free</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">0</span>
-                        <span class="period">/month</span>
-                    </div>
-                </div>
+                <h3>Basic</h3>
+                <p class="price"><span class="currency">$</span>9<span class="period">/mo</span></p>
                 <ul class="features">
-                    <li>5 AI Design Generations</li>
-                    <li>Basic Animation Templates</li>
-                    <li>Community Support</li>
+                    <li>Basic animations</li>
+                    <li>5 projects</li>
+                    <li>Community support</li>
                     <li>720p Export Quality</li>
                 </ul>
                 <button class="pricing-btn">Get Started</button>
             </div>
-
-            <!-- Pro Plan -->
             <div class="pricing-card popular">
                 <div class="popular-badge">Most Popular</div>
-                <div class="pricing-header">
-                    <h3>Pro</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">29</span>
-                        <span class="period">/month</span>
-                    </div>
-                </div>
+                <h3>Pro</h3>
+                <p class="price"><span class="currency">$</span>19<span class="period">/mo</span></p>
                 <ul class="features">
-                    <li>Unlimited AI Design Generations</li>
-                    <li>Advanced Animation Library</li>
-                    <li>Priority Support</li>
+                    <li>Advanced animations</li>
+                    <li>Unlimited projects</li>
+                    <li>Priority support</li>
                     <li>4K Export Quality</li>
-                    <li>Custom Branding</li>
-                    <li>Team Collaboration</li>
                 </ul>
-                <button class="pricing-btn">Upgrade to Pro</button>
+                <button class="pricing-btn">Get Started</button>
             </div>
-
-            <!-- Pro Max Plan -->
             <div class="pricing-card">
-                <div class="pricing-header">
-                    <h3>Pro Max</h3>
-                    <div class="price">
-                        <span class="currency">$</span>
-                        <span class="amount">99</span>
-                        <span class="period">/month</span>
-                    </div>
-                </div>
+                <h3>Enterprise</h3>
+                <p class="price">Custom</p>
                 <ul class="features">
-                    <li>Everything in Pro, plus:</li>
-                    <li>API Access</li>
-                    <li>White-label Solution</li>
-                    <li>Dedicated Account Manager</li>
-                    <li>Custom Integration Support</li>
+                    <li>Custom animations</li>
+                    <li>Dedicated support</li>
+                    <li>Custom integration</li>
                     <li>Enterprise Security</li>
                 </ul>
-                <button class="pricing-btn">Contact Sales</button>
+                <button class="pricing-btn">Contact Us</button>
             </div>
         </div>
     </section>
